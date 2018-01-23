@@ -8,5 +8,7 @@ DirectX 12 샘플 소스 코드 개발
  이메일: websearch@naver.com
  블로그: http://blog.naver.com/websearch
 
+본 프로젝트는 MS Visual Studio 2017 기반으로 진행합니다.
+
 2. 폴더 설명
 
