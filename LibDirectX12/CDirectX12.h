@@ -7,6 +7,7 @@
 #include <D3Dcompiler.h>
 #include <string>
 #include "d3dx12.h"
+#include <DirectXMath.h>
 
 #define SWAP_CHAIN_BUF_COUNT	2
 
@@ -17,9 +18,13 @@ public:
 	virtual ~CDirectX12();
 
 	bool Create( HWND hWnd );
+	bool Draw();
 	bool WaitCmdQueue();
 
 	const TCHAR * GetErrString();
+
+	virtual bool CreateChild() = 0;
+	virtual bool DrawChild() = 0;
 
 protected:
 	Microsoft::WRL::ComPtr<IDXGIFactory4> m_pclsFactory;
@@ -41,6 +46,14 @@ protected:
 	Microsoft::WRL::ComPtr<ID3D12Resource> m_pclsRtvBuf[SWAP_CHAIN_BUF_COUNT];
 
 	int m_iRtvBufIndex;
+
+	// 화면 크기
+	CD3DX12_VIEWPORT m_clsViewPort;
+	CD3DX12_RECT m_clsViewRect;
+
+	//
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> m_pclsRootSignature;
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> m_pclsPipeLineState;
 
 	// 에러 정보
 	HRESULT m_iErrCode;

@@ -175,6 +175,11 @@
     <Image Include="small.ico" />
     <Image Include="TestTriangle.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LibDirectX12\LibDirectX12.vcxproj">
+      <Project>{26b77d2b-f74d-40fe-88a8-184dacc2e4ad}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

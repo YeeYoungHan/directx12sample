@@ -93,12 +93,70 @@ bool CDirectX12::Create( HWND hWnd )
 		pclsRtvHeapPos.ptr += iRtvSize;
 	}
 
+	// DirectX 로 그려질 화면 크기를 설정한다.
+	m_clsViewPort = CD3DX12_VIEWPORT( 0.0f, 0, (float)iWidth, (float)iHeight );
+	m_clsViewRect = CD3DX12_RECT( 0, 0, iWidth, iHeight );
+
+	// 
+	CD3DX12_ROOT_SIGNATURE_DESC clsSigDesc;
+	clsSigDesc.Init( 0, nullptr, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT );
+
+	Microsoft::WRL::ComPtr<ID3DBlob> pclsSignature;
+	Microsoft::WRL::ComPtr<ID3DBlob> pclsError;
+	CHECK_FAILED( D3D12SerializeRootSignature( &clsSigDesc, D3D_ROOT_SIGNATURE_VERSION_1, &pclsSignature, &pclsError ) );
+	CHECK_FAILED( m_pclsDevice->CreateRootSignature( 0, pclsSignature->GetBufferPointer(), pclsSignature->GetBufferSize(), IID_PPV_ARGS( &m_pclsRootSignature ) ) );
+
+	return CreateChild();
+}
+
+/**
+ * @ingroup LibDirectX12
+ * @brief DirectX 12 를 이용하여서 화면에 그린다.
+ * @returns 성공하면 true 를 리턴하고 실패하면 false 를 리턴한다.
+ */
+bool CDirectX12::Draw()
+{
+	CHECK_FAILED( m_pclsCmdAlloc->Reset() );
+	CHECK_FAILED( m_pclsCmdList->Reset( m_pclsCmdAlloc.Get(), m_pclsPipeLineState.Get() ) );
+
+	m_pclsCmdList->SetGraphicsRootSignature( m_pclsRootSignature.Get() );
+	m_pclsCmdList->RSSetViewports( 1, &m_clsViewPort );
+	m_pclsCmdList->RSSetScissorRects( 1, &m_clsViewRect );
+
+	m_pclsCmdList->ResourceBarrier( 1, &CD3DX12_RESOURCE_BARRIER::Transition( m_pclsRtvBuf[m_iRtvBufIndex].Get(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET ) );
+
+	UINT iRtpDescSize = m_pclsDevice->GetDescriptorHandleIncrementSize( D3D12_DESCRIPTOR_HEAP_TYPE_RTV );
+	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle( m_pclsRtvHeap->GetCPUDescriptorHandleForHeapStart(), m_iRtvBufIndex, iRtpDescSize );
+	m_pclsCmdList->OMSetRenderTargets( 1, &rtvHandle, FALSE, nullptr );
+
+	const float clearColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	m_pclsCmdList->ClearRenderTargetView( rtvHandle, clearColor, 0, nullptr );
+	m_pclsCmdList->IASetPrimitiveTopology( D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+
+	DrawChild();
+
+	m_pclsCmdList->ResourceBarrier( 1, &CD3DX12_RESOURCE_BARRIER::Transition( m_pclsRtvBuf[m_iRtvBufIndex].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT ) );
+	CHECK_FAILED( m_pclsCmdList->Close() );
+
+	ID3D12CommandList * arrCmdList[] = { m_pclsCmdList.Get() };
+	m_pclsCmdQueue->ExecuteCommandLists( _countof( arrCmdList ), arrCmdList );
+
+	CHECK_FAILED( m_pclsSwapChain->Present( 1, 0 ) );
+
+	WaitCmdQueue();
+
+	++m_iRtvBufIndex;
+	if( m_iRtvBufIndex >= SWAP_CHAIN_BUF_COUNT )
+	{
+		m_iRtvBufIndex = 0;
+	}
+
 	return true;
 }
 
 /**
  * @ingroup LibDirectX12
- * @brief GPU 명령이 완료될 때까지 대기한다.
+ * @brief GPU 명령이 완료될 때까지 대기한다. 페이지 132 ~ 134
  * @returns 성공하면 true 를 리턴하고 실패하면 false 를 리턴한다.
  */
 bool CDirectX12::WaitCmdQueue()
