@@ -10,13 +10,15 @@ CDirectXTriangle::~CDirectXTriangle()
 {
 }
 
+// 삼각형을 그리기 위한 준비 과정
 bool CDirectXTriangle::CreateChild()
 {
+	// 삼각형 정점 정보를 GPU 업로드 힙에 저장한다. - 페이지 246 ~ 248
 	Vertex arrTriangle[] =
 	{
 		{ { 0.0f, 0.25f, 0.0f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-	{ { 0.25f, -0.25f, 0.0f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-	{ { -0.25f, -0.25f, 0.0f },{ 0.0f, 0.0f, 1.0f, 1.0f } }
+		{ { 0.25f, -0.25f, 0.0f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+		{ { -0.25f, -0.25f, 0.0f },{ 0.0f, 0.0f, 1.0f, 1.0f } }
 	};
 
 	CHECK_FAILED( m_pclsDevice->CreateCommittedResource( &CD3DX12_HEAP_PROPERTIES( D3D12_HEAP_TYPE_UPLOAD ), D3D12_HEAP_FLAG_NONE, &CD3DX12_RESOURCE_DESC::Buffer( sizeof( arrTriangle ) ),
@@ -28,6 +30,7 @@ bool CDirectXTriangle::CreateChild()
 	memcpy( pDataBegin, arrTriangle, sizeof( arrTriangle ) );
 	m_pclsUpload->Unmap( 0, nullptr );
 
+	// 정점 셰이더 컴파일 - 페이지 281 ~ 283
 	Microsoft::WRL::ComPtr<ID3DBlob> pclsVertexShader;
 	Microsoft::WRL::ComPtr<ID3DBlob> pclsPixelShader;
 
@@ -40,6 +43,7 @@ bool CDirectXTriangle::CreateChild()
 		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
 	};
 
+	// 파이프라인 상태 객체를 생성한다. - 페이지 290 ~ 295
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
 	psoDesc.InputLayout = { arrInputDesc, _countof( arrInputDesc ) };
 	psoDesc.pRootSignature = m_pclsRootSignature.Get();
@@ -59,14 +63,18 @@ bool CDirectXTriangle::CreateChild()
 	return true;
 }
 
+// 삼각형을 그린다.
 bool CDirectXTriangle::DrawChild()
 {
+	// 정점 버퍼를 파이프라인에 묶는다. - 페이지 250
 	D3D12_VERTEX_BUFFER_VIEW clsBufView;
 	clsBufView.BufferLocation = m_pclsUpload->GetGPUVirtualAddress();
 	clsBufView.StrideInBytes = sizeof( Vertex );
 	clsBufView.SizeInBytes = sizeof( Vertex ) * 3;
 
 	m_pclsCmdList->IASetVertexBuffers( 0, 1, &clsBufView );
+
+	// 정점을 그린다. - 페이지 251 ~ 252
 	m_pclsCmdList->DrawInstanced( 3, 1, 0, 0 );
 
 	return true;

@@ -51,8 +51,10 @@ protected:
 	CD3DX12_VIEWPORT m_clsViewPort;
 	CD3DX12_RECT m_clsViewRect;
 
-	//
+	// 루트 서명 : 그리기 호출 전에 응용 프로그램이 반드시 렌더링 파이프라인에 묶어야 하는 자원들이 무엇이고 그 자원들이 셰이더 입력 레지스터들에 어떻게 대응되는지를 정의한다.
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> m_pclsRootSignature;
+
+	// 파이프라인 상태 객체 (PSO) : 렌더링 파이프라인의 상태를 제어하는 대부분의 객체는 PSO 를 이용하여서 지정된다.
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> m_pclsPipeLineState;
 
 	// 에러 정보

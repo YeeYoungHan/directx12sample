@@ -2,6 +2,7 @@
 
 #include "CDirectX12.h"
 
+// 정점
 struct Vertex
 {
 	DirectX::XMFLOAT3 Pos;
@@ -18,6 +19,7 @@ public:
 	bool DrawChild();
 
 protected:
+	// 정점 버퍼
 	Microsoft::WRL::ComPtr<ID3D12Resource> m_pclsUpload;
 };
 
