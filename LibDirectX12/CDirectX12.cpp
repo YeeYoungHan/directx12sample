@@ -32,12 +32,12 @@ bool CDirectX12::Create( HWND hWnd )
 	}
 #endif
 
-	// DXGIFactory, Device, Fence 생성
+	// 장치 생성 - DXGIFactory, Device, Fence 생성. 페이지 138 ~ 140
 	CHECK_FAILED( CreateDXGIFactory1( IID_PPV_ARGS( &m_pclsFactory ) ) );
 	CHECK_FAILED( D3D12CreateDevice( nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS( &m_pclsDevice ) ) );
 	CHECK_FAILED( m_pclsDevice->CreateFence( 0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS( &m_pclsFence ) ) );
 
-	// 명령 대기열, 메모리 할당자, 명령 목록 객체 생성
+	// 명령 대기열, 메모리 할당자, 명령 목록 객체 생성. 페이지 141 ~ 142
 	D3D12_COMMAND_QUEUE_DESC clsQueueDesc = {};
 	clsQueueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
 	clsQueueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
@@ -47,7 +47,7 @@ bool CDirectX12::Create( HWND hWnd )
 	CHECK_FAILED( m_pclsDevice->CreateCommandList( 0, D3D12_COMMAND_LIST_TYPE_DIRECT, m_pclsCmdAlloc.Get(), nullptr, IID_PPV_ARGS( &m_pclsCmdList ) ) );
 	m_pclsCmdList->Close();
 
-	// 교환 사슬 객체 생성
+	// 교환 사슬 객체 생성. 페이지 142 ~ 145
 	RECT clsRect;
 	int iWidth, iHeight;
 
@@ -76,7 +76,7 @@ bool CDirectX12::Create( HWND hWnd )
 
 	CHECK_FAILED( m_pclsFactory->CreateSwapChain( m_pclsCmdQueue.Get(), &clsSwapDesc, &m_pclsSwapChain ) );
 
-	// RTV( Render Target View ) 를 위한 서술자 힙 및 RTV 생성
+	// RTV( Render Target View ) 를 위한 서술자 힙 및 RTV 생성. 페이지 145 ~ 148
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc;
 	rtvHeapDesc.NumDescriptors = SWAP_CHAIN_BUF_COUNT;
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
@@ -97,7 +97,7 @@ bool CDirectX12::Create( HWND hWnd )
 	m_clsViewPort = CD3DX12_VIEWPORT( 0.0f, 0, (float)iWidth, (float)iHeight );
 	m_clsViewRect = CD3DX12_RECT( 0, 0, iWidth, iHeight );
 
-	// 
+	// 루트 서명 : 그리기 호출 전에 응용 프로그램이 반드시 렌더링 파이프라인에 묶어야 하는 자원들이 무엇이고 그 자원들이 셰이더 입력 레지스터들에 어떻게 대응되는지를 정의한다.
 	CD3DX12_ROOT_SIGNATURE_DESC clsSigDesc;
 	clsSigDesc.Init( 0, nullptr, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT );
 
@@ -116,15 +116,22 @@ bool CDirectX12::Create( HWND hWnd )
  */
 bool CDirectX12::Draw()
 {
+	// 명령 할당자와 명령 목록을 재설정한다.
 	CHECK_FAILED( m_pclsCmdAlloc->Reset() );
 	CHECK_FAILED( m_pclsCmdList->Reset( m_pclsCmdAlloc.Get(), m_pclsPipeLineState.Get() ) );
 
 	m_pclsCmdList->SetGraphicsRootSignature( m_pclsRootSignature.Get() );
+
+	// 뷰포트 설정. 뷰포트는 장면을 그려 넣고자 하는 후면 버퍼의 부분직사각형 영역을 의미한다. 페이지 153 ~ 155
 	m_pclsCmdList->RSSetViewports( 1, &m_clsViewPort );
+
+	// 가위 직사각형 설정. 후면 버퍼를 기준으로 가위 직사각형을 정의, 설정하면, 렌더링 시 가위 직사각형의 바깥에 있는 픽셀들은 후면 버퍼에 레스터화되지 않는다. 페이지 155 ~ 156
 	m_pclsCmdList->RSSetScissorRects( 1, &m_clsViewRect );
 
+	// 자원 용도에 관련된 상태 전이를 Direct3D 에 통지한다. GPU 가 자원에 자료를 다 기록하지 않은 상태에서 자원의 자료를 읽지 않도록 하기 위한 기능
 	m_pclsCmdList->ResourceBarrier( 1, &CD3DX12_RESOURCE_BARRIER::Transition( m_pclsRtvBuf[m_iRtvBufIndex].Get(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET ) );
 
+	// 랜더링 결과가 기록될 랜더 대상 버퍼를 지정한 후, 후면 버퍼를 지운다. 페이지 182
 	UINT iRtpDescSize = m_pclsDevice->GetDescriptorHandleIncrementSize( D3D12_DESCRIPTOR_HEAP_TYPE_RTV );
 	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle( m_pclsRtvHeap->GetCPUDescriptorHandleForHeapStart(), m_iRtvBufIndex, iRtpDescSize );
 	m_pclsCmdList->OMSetRenderTargets( 1, &rtvHandle, FALSE, nullptr );
@@ -135,12 +142,14 @@ bool CDirectX12::Draw()
 
 	DrawChild();
 
+	// 자원 용도에 관련된 상태 전이를 Direct3D 에 통지한다.
 	m_pclsCmdList->ResourceBarrier( 1, &CD3DX12_RESOURCE_BARRIER::Transition( m_pclsRtvBuf[m_iRtvBufIndex].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT ) );
 	CHECK_FAILED( m_pclsCmdList->Close() );
 
 	ID3D12CommandList * arrCmdList[] = { m_pclsCmdList.Get() };
 	m_pclsCmdQueue->ExecuteCommandLists( _countof( arrCmdList ), arrCmdList );
 
+	// 후면 버퍼와 전면 버퍼를 교환한다. 페이지 183
 	CHECK_FAILED( m_pclsSwapChain->Present( 1, 0 ) );
 
 	WaitCmdQueue();

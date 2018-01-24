@@ -26,6 +26,8 @@ bool CDirectXTriangle::CreateChild()
 
 	UINT8 * pDataBegin;
 	CD3DX12_RANGE clsRange( 0, 0 );
+
+	// ÆäÀÌÁö 270 ~ 271
 	CHECK_FAILED( m_pclsUpload->Map( 0, &clsRange, reinterpret_cast<void**>(&pDataBegin) ) );
 	memcpy( pDataBegin, arrTriangle, sizeof( arrTriangle ) );
 	m_pclsUpload->Unmap( 0, nullptr );
