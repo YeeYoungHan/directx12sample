@@ -98,8 +98,13 @@ bool CDirectX12::Create( HWND hWnd )
 	m_clsViewRect = CD3DX12_RECT( 0, 0, iWidth, iHeight );
 
 	// 루트 서명 : 그리기 호출 전에 응용 프로그램이 반드시 렌더링 파이프라인에 묶어야 하는 자원들이 무엇이고 그 자원들이 셰이더 입력 레지스터들에 어떻게 대응되는지를 정의한다.
+	CD3DX12_ROOT_PARAMETER arrRootParam[1];
+	CD3DX12_DESCRIPTOR_RANGE clsDescRange;
+	clsDescRange.Init( D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0 );
+	arrRootParam[0].InitAsDescriptorTable( 1, &clsDescRange );
+
 	CD3DX12_ROOT_SIGNATURE_DESC clsSigDesc;
-	clsSigDesc.Init( 0, nullptr, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT );
+	clsSigDesc.Init( 1, arrRootParam, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT );
 
 	Microsoft::WRL::ComPtr<ID3DBlob> pclsSignature;
 	Microsoft::WRL::ComPtr<ID3DBlob> pclsError;

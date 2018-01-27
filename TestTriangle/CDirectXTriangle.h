@@ -15,8 +15,8 @@ public:
 	CDirectXTriangle();
 	virtual ~CDirectXTriangle();
 
-	bool CreateChild();
-	bool DrawChild();
+	virtual bool CreateChild();
+	virtual bool DrawChild();
 
 protected:
 	// 정점 버퍼
