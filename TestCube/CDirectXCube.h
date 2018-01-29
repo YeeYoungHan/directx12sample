@@ -4,8 +4,6 @@
 #include <DirectXMath.h>
 #include <memory>
 
-#define PI	3.1415926535f
-
 // Á¤Á¡
 struct Vertex
 {
@@ -48,15 +46,13 @@ protected:
 
 	float m_fTheta = 1.5f * DirectX::XM_PI;
 	float m_fPhi = DirectX::XM_PIDIV4;
-	float m_fRadius = 5.0f;
+	float m_fRadius = 3.0f;
 
-	DirectX::XMFLOAT4X4 m_sttView = DirectX::XMFLOAT4X4(
+	DirectX::XMFLOAT4X4 m_sttProj = DirectX::XMFLOAT4X4(
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f );
-	DirectX::XMFLOAT4X4 m_sttWorld = m_sttView;
-	DirectX::XMFLOAT4X4 m_sttProj = m_sttView;
 
 	bool m_bMouseDown;
 };

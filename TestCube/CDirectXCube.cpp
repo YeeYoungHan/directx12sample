@@ -17,53 +17,54 @@ bool CDirectXCube::CreateChild()
 	// Å¥ºê Á¤Á¡ Á¤º¸¸¦ GPU ¾÷·Îµå Èü¿¡ ÀúÀåÇÑ´Ù. - ÆäÀÌÁö 246 ~ 248
 	Vertex arrCube[] =
 	{
-		// ¾Õ¸é
+		// ¾Õ¸é (»¡°£»ö)
 		{ {  0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ {  0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ {  0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ { -0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ { -0.5f,  0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		
-		// µÞ¸é
-		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ {  0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.5f, -0.5f, -0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ { -0.5f, -0.5f, -0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ { -0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-
-		// ¿ÞÂÊ ¸é
-		{ { -0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ { -0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
+		{ {  0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
 		{ { -0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ { -0.5f, -0.5f, -0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
+		{ {  0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
+		{ { -0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
+		{ { -0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
+		
+		// µÞ¸é (³ë¶û»ö)
+		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },
+		{ {  0.5f, -0.5f, -0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },
+		{ { -0.5f, -0.5f, -0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },
+		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },
+		{ { -0.5f, -0.5f, -0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },
+		{ { -0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },
+
+		/*
+		// ¿ÞÂÊ ¸é
+		{ { -0.5f,  0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+		{ { -0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
 		{ { -0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+		{ { -0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+		{ { -0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
+		{ { -0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
 
 		// ¿À¸¥ÂÊ ¸é
 		{ {  0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ {  0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ {  0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ {  0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ {  0.5f, -0.5f, -0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ {  0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+		{ {  0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
+		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
+		{ {  0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+		{ {  0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },*/
 
-		// À­¸é
-		{ {  0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
+		// À­¸é (³ì»ö)
+		{ {  0.5f,  0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
 		{ {  0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.5f,  0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ { -0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ {  0.5f,  0.5f, -0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
+		{ { -0.5f,  0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+		{ { -0.5f,  0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+		{ {  0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
 		{ { -0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
 
-		// ¾Æ·§¸é
-		{ {  0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ {  0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ { -0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ {  0.5f, -0.5f, -0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ { -0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } }
+		// ¾Æ·§¸é (ÇÏ´Ã»ö)
+		{ {  0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
+		{ {  0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
+		{ { -0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
+		{ { -0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
+		{ {  0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
+		{ { -0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } }
 	};
 
 	m_iVertexCount = _countof( arrCube );
@@ -125,7 +126,8 @@ bool CDirectXCube::CreateChild()
 
 	m_pclsDevice->CreateConstantBufferView( &cbvDesc, m_clsCbvHeap->GetCPUDescriptorHandleForHeapStart() );
 
-	DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH( 0.25f * PI, 1.0f, 1.0f, 1000.0f );
+	//DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH( 0.25f * DirectX::XM_PI, 1.0f, 1.0f, 1000.0f );
+	DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH( 1.0f, 1.0f, 1.0f, 1000.0f );
 	DirectX::XMStoreFloat4x4( &m_sttProj, P );
 
 	return true;
@@ -182,9 +184,9 @@ void CDirectXCube::OnMouseMove( HWND hWnd, WPARAM btnState, int x, int y )
 		{
 			m_fPhi = 0.1f;
 		}
-		else if( m_fPhi > PI )
+		else if( m_fPhi > DirectX::XM_PI )
 		{
-			m_fPhi = PI;
+			m_fPhi = DirectX::XM_PI;
 		}
 
 		m_sttMousePos.x = x;
@@ -197,7 +199,7 @@ void CDirectXCube::OnMouseMove( HWND hWnd, WPARAM btnState, int x, int y )
 
 bool CDirectXCube::Update()
 {
-	float x = m_fRadius * sinf( m_fPhi ) * cosf( m_fTheta );
+	float x = m_fRadius * cosf( m_fTheta );
 	float z = m_fRadius * sinf( m_fPhi ) * sinf( m_fTheta );
 	float y = m_fRadius * cosf( m_fPhi );
 
@@ -206,11 +208,9 @@ bool CDirectXCube::Update()
 	DirectX::XMVECTOR up = DirectX::XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
 
 	DirectX::XMMATRIX view = DirectX::XMMatrixLookAtLH( pos, target, up );
-	XMStoreFloat4x4( &m_sttView, view );
 
-	DirectX::XMMATRIX world = DirectX::XMLoadFloat4x4( &m_sttWorld );
 	DirectX::XMMATRIX proj = DirectX::XMLoadFloat4x4( &m_sttProj );
-	DirectX::XMMATRIX worldViewProj = world * view * proj;
+	DirectX::XMMATRIX worldViewProj = view * proj;
 
 	ConstObject sttConstants;
 
