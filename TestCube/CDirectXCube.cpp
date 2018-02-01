@@ -126,7 +126,6 @@ bool CDirectXCube::CreateChild()
 	m_pclsDevice->CreateConstantBufferView( &cbvDesc, m_clsCbvHeap->GetCPUDescriptorHandleForHeapStart() );
 
 	DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH( 0.25f * DirectX::XM_PI, 1.0f, 1.0f, 1000.0f );
-	//DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH( 1.0f, 1.0f, 1.0f, 1000.0f );
 	DirectX::XMStoreFloat4x4( &m_sttProj, P );
 
 	return true;
@@ -198,18 +197,6 @@ void CDirectXCube::OnMouseMove( HWND hWnd, WPARAM btnState, int x, int y )
 
 bool CDirectXCube::Update()
 {
-	/*
-	float x = m_fRadius * cosf( m_fTheta );
-	float z = m_fRadius * sinf( m_fPhi ) * sinf( m_fTheta );
-	float y = m_fRadius * cosf( m_fPhi );
-	*/
-
-	/*
-	float x = m_fRadius * cosf( m_fPhi ) * cosf( DirectX::XM_PI - m_fTheta );
-	float y = m_fRadius * sinf( m_fPhi );
-	float z = m_fRadius * cosf( m_fPhi ) * cosf( m_fTheta );
-	*/
-
 	float x = m_fRadius * sinf( m_fPhi ) * cosf( m_fTheta );
 	float z = m_fRadius * sinf( m_fPhi ) * sinf( m_fTheta );
 	float y = m_fRadius * cosf( m_fPhi );
