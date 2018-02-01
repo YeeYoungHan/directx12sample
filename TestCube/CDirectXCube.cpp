@@ -19,11 +19,11 @@ bool CDirectXCube::CreateChild()
 	{
 		// ¾Õ¸é (»¡°£»ö)
 		{ {  0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ {  0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
+		{ { -0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
 		{ { -0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
 		{ {  0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
 		{ { -0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ { -0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
+		{ {  0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
 		
 		// µÞ¸é (³ë¶û»ö)
 		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },
@@ -33,37 +33,36 @@ bool CDirectXCube::CreateChild()
 		{ { -0.5f, -0.5f, -0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },
 		{ { -0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },
 
-		/*
-		// ¿ÞÂÊ ¸é
-		{ { -0.5f,  0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+		// ¿ÞÂÊ ¸é (ÆÄ¶û»ö)
+		{ { -0.5f,  0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
+		{ { -0.5f, -0.5f, -0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
 		{ { -0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ { -0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ { -0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+		{ { -0.5f,  0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
+		{ { -0.5f,  0.5f, -0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
+		{ { -0.5f, -0.5f, -0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
 
-		// ¿À¸¥ÂÊ ¸é
-		{ {  0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ {  0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ {  0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ {  0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },*/
+		// ¿À¸¥ÂÊ ¸é (º¸¶ó»ö)
+		{ {  0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 1.0f, 1.0f } },
+		{ {  0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 1.0f, 1.0f } },
+		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 0.0f, 1.0f, 1.0f } },
+		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 0.0f, 1.0f, 1.0f } },
+		{ {  0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 1.0f, 1.0f } },
+		{ {  0.5f, -0.5f, -0.5f },{ 1.0f, 0.0f, 1.0f, 1.0f } },
 
 		// À­¸é (³ì»ö)
 		{ {  0.5f,  0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
 		{ {  0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.5f,  0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.5f,  0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ {  0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
 		{ { -0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+		{ {  0.5f,  0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+		{ { -0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+		{ { -0.5f,  0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
 
 		// ¾Æ·§¸é (ÇÏ´Ã»ö)
 		{ {  0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
+		{ { -0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
 		{ {  0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
+		{ {  0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
 		{ { -0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
-		{ { -0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
-		{ {  0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
 		{ { -0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } }
 	};
 
@@ -126,8 +125,8 @@ bool CDirectXCube::CreateChild()
 
 	m_pclsDevice->CreateConstantBufferView( &cbvDesc, m_clsCbvHeap->GetCPUDescriptorHandleForHeapStart() );
 
-	//DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH( 0.25f * DirectX::XM_PI, 1.0f, 1.0f, 1000.0f );
-	DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH( 1.0f, 1.0f, 1.0f, 1000.0f );
+	DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH( 0.25f * DirectX::XM_PI, 1.0f, 1.0f, 1000.0f );
+	//DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH( 1.0f, 1.0f, 1.0f, 1000.0f );
 	DirectX::XMStoreFloat4x4( &m_sttProj, P );
 
 	return true;
@@ -199,9 +198,22 @@ void CDirectXCube::OnMouseMove( HWND hWnd, WPARAM btnState, int x, int y )
 
 bool CDirectXCube::Update()
 {
+	/*
 	float x = m_fRadius * cosf( m_fTheta );
 	float z = m_fRadius * sinf( m_fPhi ) * sinf( m_fTheta );
 	float y = m_fRadius * cosf( m_fPhi );
+	*/
+
+	/*
+	float x = m_fRadius * cosf( m_fPhi ) * cosf( DirectX::XM_PI - m_fTheta );
+	float y = m_fRadius * sinf( m_fPhi );
+	float z = m_fRadius * cosf( m_fPhi ) * cosf( m_fTheta );
+	*/
+
+	float x = m_fRadius * sinf( m_fPhi ) * cosf( m_fTheta );
+	float z = m_fRadius * sinf( m_fPhi ) * sinf( m_fTheta );
+	float y = m_fRadius * cosf( m_fPhi );
+
 
 	DirectX::XMVECTOR pos = DirectX::XMVectorSet( x, y, z, 1.0f );
 	DirectX::XMVECTOR target = DirectX::XMVectorZero();

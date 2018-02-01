@@ -9,11 +9,13 @@ struct VertexOut
   float4 Color : COLOR;
 };
 
-VertexOut VS( float4 position : POSITION, float4 color : COLOR )
+//VertexOut VS( float4 position : POSITION, float4 color : COLOR )
+VertexOut VS( float3 position : POSITION, float4 color : COLOR )
 {
 	VertexOut vout;
 	
-	vout.PosH = mul( position, gWorldViewProj );
+	//vout.PosH = mul( position, gWorldViewProj );
+	vout.PosH = mul( float4(position, 1.0f), gWorldViewProj );
   vout.Color = color;
   
   return vout;
