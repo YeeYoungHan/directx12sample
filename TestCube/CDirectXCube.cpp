@@ -109,6 +109,7 @@ bool CDirectXCube::CreateChild()
 	psoDesc.SampleDesc.Count = 1;
 	CHECK_FAILED( m_pclsDevice->CreateGraphicsPipelineState( &psoDesc, IID_PPV_ARGS( &m_pclsPipeLineState ) ) );
 
+	// 회전을 위한 상수 버퍼를 생성한다.
 	D3D12_DESCRIPTOR_HEAP_DESC cbvHeapDesc;
 	cbvHeapDesc.NumDescriptors = 1;
 	cbvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
@@ -125,6 +126,7 @@ bool CDirectXCube::CreateChild()
 
 	m_pclsDevice->CreateConstantBufferView( &cbvDesc, m_clsCbvHeap->GetCPUDescriptorHandleForHeapStart() );
 
+	// 원근 감각으로 투영 행렬을 생성한다.
 	DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH( 0.25f * DirectX::XM_PI, 1.0f, 1.0f, 1000.0f );
 	DirectX::XMStoreFloat4x4( &m_sttProj, P );
 
@@ -201,11 +203,16 @@ bool CDirectXCube::Update()
 	float z = m_fRadius * sinf( m_fPhi ) * sinf( m_fTheta );
 	float y = m_fRadius * cosf( m_fPhi );
 
-
+	// 카메라 위치
 	DirectX::XMVECTOR pos = DirectX::XMVectorSet( x, y, z, 1.0f );
+
+	// 큐브 위치
 	DirectX::XMVECTOR target = DirectX::XMVectorZero();
+
+	// 카메라가 타겟을 바라볼 때의 위쪽 방향.
 	DirectX::XMVECTOR up = DirectX::XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
 
+	// 카메라 위치와 카메라가 큐브를 바라보는 방향을 이용하여서 View 행렬을 생성한다.
 	DirectX::XMMATRIX view = DirectX::XMMatrixLookAtLH( pos, target, up );
 
 	DirectX::XMMATRIX proj = DirectX::XMLoadFloat4x4( &m_sttProj );
