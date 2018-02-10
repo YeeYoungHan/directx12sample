@@ -15,69 +15,64 @@ CDirectXCubeIndex::~CDirectXCubeIndex()
 bool CDirectXCubeIndex::CreateChild()
 {
 	// 큐브 정점 정보를 GPU 업로드 힙에 저장한다. - 페이지 246 ~ 248
-	Vertex arrCube[] =
+	Vertex arrVertex[] =
 	{
-		// 앞면 (빨간색)
-		{ {  0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ { -0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ { -0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ {  0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ { -0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		{ {  0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
-		
-		// 뒷면 (노랑색)
-		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },
-		{ {  0.5f, -0.5f, -0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.5f, -0.5f, -0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },
-		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.5f, -0.5f, -0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.5f,  0.5f, -0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },
-
-		// 왼쪽 면 (파랑색)
-		{ { -0.5f,  0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ { -0.5f, -0.5f, -0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ { -0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ { -0.5f,  0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ { -0.5f,  0.5f, -0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-		{ { -0.5f, -0.5f, -0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-
-		// 오른쪽 면 (보라색)
-		{ {  0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 1.0f, 1.0f } },
-		{ {  0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 1.0f, 1.0f } },
-		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 0.0f, 1.0f, 1.0f } },
-		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 0.0f, 1.0f, 1.0f } },
-		{ {  0.5f, -0.5f,  0.5f },{ 1.0f, 0.0f, 1.0f, 1.0f } },
-		{ {  0.5f, -0.5f, -0.5f },{ 1.0f, 0.0f, 1.0f, 1.0f } },
-
-		// 윗면 (녹색)
-		{ {  0.5f,  0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ {  0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ {  0.5f,  0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.5f,  0.5f, -0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-		{ { -0.5f,  0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-
-		// 아랫면 (하늘색)
-		{ {  0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
-		{ { -0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
-		{ {  0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
-		{ {  0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
-		{ { -0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
-		{ { -0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } }
+		{ {  0.5f,  0.5f,  0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },	// index 0
+		{ {  0.5f, -0.5f,  0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },	// index 1
+		{ { -0.5f, -0.5f,  0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },	// index 2
+		{ { -0.5f,  0.5f,  0.5f },{ 1.0f, 1.0f, 0.0f, 1.0f } },	// index 3
+		{ {  0.5f,  0.5f, -0.5f },{ 1.0f, 0.0f, 1.0f, 1.0f } },	// index 4
+		{ {  0.5f, -0.5f, -0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },	// index 5
+		{ { -0.5f, -0.5f, -0.5f },{ 0.5f, 0.5f, 0.0f, 1.0f } },	// index 6
+		{ { -0.5f,  0.5f, -0.5f },{ 0.0f, 0.5f, 0.5f, 1.0f } },	// index 7
 	};
 
-	m_iVertexCount = _countof( arrCube );
+	uint16_t arrIndex[] =
+	{
+		// 앞면
+		0, 2, 1,
+		0, 3, 2,
 
-	CHECK_FAILED( m_pclsDevice->CreateCommittedResource( &CD3DX12_HEAP_PROPERTIES( D3D12_HEAP_TYPE_UPLOAD ), D3D12_HEAP_FLAG_NONE, &CD3DX12_RESOURCE_DESC::Buffer( sizeof( arrCube ) ),
-		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS( &m_pclsUpload ) ) );
+		// 뒷면
+		4, 6, 7,
+		4, 5, 6,
+
+		// 왼쪽면
+		3, 6, 2,
+		3, 7, 6,
+
+		// 오른쪽면
+		0, 1, 5,
+		0, 5, 4,
+
+		// 윗면
+		0, 4, 7,
+		0, 7, 3,
+
+		// 아랫면
+		1, 6, 5,
+		1, 2, 6
+	};
+
+	m_iVertexCount = _countof( arrVertex );
+	m_iIndexCount = _countof( arrIndex );
+
+	CHECK_FAILED( m_pclsDevice->CreateCommittedResource( &CD3DX12_HEAP_PROPERTIES( D3D12_HEAP_TYPE_UPLOAD ), D3D12_HEAP_FLAG_NONE, &CD3DX12_RESOURCE_DESC::Buffer( sizeof( arrVertex ) ),
+		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS( &m_pclsVertexBuf ) ) );
+	CHECK_FAILED( m_pclsDevice->CreateCommittedResource( &CD3DX12_HEAP_PROPERTIES( D3D12_HEAP_TYPE_UPLOAD ), D3D12_HEAP_FLAG_NONE, &CD3DX12_RESOURCE_DESC::Buffer( sizeof( arrIndex ) ),
+		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS( &m_pclsIndexBuf ) ) );
 
 	UINT8 * pDataBegin;
 	CD3DX12_RANGE clsRange( 0, 0 );
 
 	// 페이지 270 ~ 271
-	CHECK_FAILED( m_pclsUpload->Map( 0, &clsRange, reinterpret_cast<void**>(&pDataBegin) ) );
-	memcpy( pDataBegin, arrCube, sizeof( arrCube ) );
-	m_pclsUpload->Unmap( 0, nullptr );
+	CHECK_FAILED( m_pclsVertexBuf->Map( 0, &clsRange, reinterpret_cast<void**>(&pDataBegin) ) );
+	memcpy( pDataBegin, arrVertex, sizeof( arrVertex ) );
+	m_pclsVertexBuf->Unmap( 0, nullptr );
+
+	CHECK_FAILED( m_pclsIndexBuf->Map( 0, &clsRange, reinterpret_cast<void**>(&pDataBegin) ) );
+	memcpy( pDataBegin, arrIndex, sizeof( arrIndex ) );
+	m_pclsIndexBuf->Unmap( 0, nullptr );
 
 	// 정점 셰이더 컴파일 - 페이지 281 ~ 283
 	Microsoft::WRL::ComPtr<ID3DBlob> pclsVertexShader;
@@ -141,16 +136,23 @@ bool CDirectXCubeIndex::DrawChild()
 	m_pclsCmdList->SetGraphicsRootDescriptorTable( 0, m_clsCbvHeap->GetGPUDescriptorHandleForHeapStart() );
 
 	// 정점 버퍼를 파이프라인에 묶는다. - 페이지 250
-	D3D12_VERTEX_BUFFER_VIEW clsBufView;
-	clsBufView.BufferLocation = m_pclsUpload->GetGPUVirtualAddress();
-	clsBufView.StrideInBytes = sizeof( Vertex );
-	clsBufView.SizeInBytes = sizeof( Vertex ) * m_iVertexCount;
+	D3D12_VERTEX_BUFFER_VIEW clsVertexBufView;
+	clsVertexBufView.BufferLocation = m_pclsVertexBuf->GetGPUVirtualAddress();
+	clsVertexBufView.StrideInBytes = sizeof( Vertex );
+	clsVertexBufView.SizeInBytes = sizeof( Vertex ) * m_iVertexCount;
 
-	m_pclsCmdList->IASetVertexBuffers( 0, 1, &clsBufView );
+	m_pclsCmdList->IASetVertexBuffers( 0, 1, &clsVertexBufView );
 
-	// 정점을 그린다. - 페이지 251 ~ 252
-	// D3D12 ERROR: ID3D12CommandList::DrawInstanced: Root Parameter Index [0] is not set. On a Resource Binding Tier 2 hardware, all descriptor tables of type CBV and UAV declared in the currently set Root Signature (0x000002D6601C3340:'Unnamed ID3D12RootSignature Object') must be populated, even if the shaders do not need the descriptor. [ EXECUTION ERROR #991: COMMAND_LIST_DESCRIPTOR_TABLE_NOT_SET]
-	m_pclsCmdList->DrawInstanced( m_iVertexCount, 1, 0, 0 );
+	// 인덱스를 파이프라인에 묶는다.
+	D3D12_INDEX_BUFFER_VIEW clsIndexBufView;
+	clsIndexBufView.BufferLocation = m_pclsIndexBuf->GetGPUVirtualAddress();
+	clsIndexBufView.Format = DXGI_FORMAT_R16_UINT;
+	clsIndexBufView.SizeInBytes = sizeof(uint16_t) * m_iIndexCount;
+
+	m_pclsCmdList->IASetIndexBuffer( &clsIndexBufView );
+
+	// 정점을 그린다.
+	m_pclsCmdList->DrawIndexedInstanced( m_iIndexCount, 1, 0, 0, 0 );
 
 	return true;
 }

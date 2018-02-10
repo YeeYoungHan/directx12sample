@@ -37,14 +37,16 @@ public:
 
 protected:
 	// 정점 버퍼
-	Microsoft::WRL::ComPtr<ID3D12Resource> m_pclsUpload;
+	Microsoft::WRL::ComPtr<ID3D12Resource> m_pclsVertexBuf;
+	Microsoft::WRL::ComPtr<ID3D12Resource> m_pclsIndexBuf;
 	int m_iVertexCount;
+	int m_iIndexCount;
 	POINT m_sttMousePos;
 
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_clsCbvHeap;
 	Microsoft::WRL::ComPtr<ID3D12Resource> m_pclsObjectCB;
 
-	float m_fTheta = 1.25f * DirectX::XM_PI;
+	float m_fTheta = 2.25f * DirectX::XM_PI;
 	float m_fPhi = DirectX::XM_PIDIV4;
 	float m_fRadius = 3.0f;
 
