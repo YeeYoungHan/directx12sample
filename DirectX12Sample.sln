@@ -12,6 +12,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestTriangle", "TestTriangl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestCube", "TestCube\TestCube.vcxproj", "{FB299383-6EF9-4A50-8C2D-117033E7291D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestCubeIndex", "TestCubeIndex\TestCubeIndex.vcxproj", "{74B24F28-7795-43FD-8226-BDFFD4FD4BEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -44,6 +46,14 @@ Global
 		{FB299383-6EF9-4A50-8C2D-117033E7291D}.Release|x64.Build.0 = Release|x64
 		{FB299383-6EF9-4A50-8C2D-117033E7291D}.Release|x86.ActiveCfg = Release|Win32
 		{FB299383-6EF9-4A50-8C2D-117033E7291D}.Release|x86.Build.0 = Release|Win32
+		{74B24F28-7795-43FD-8226-BDFFD4FD4BEA}.Debug|x64.ActiveCfg = Debug|x64
+		{74B24F28-7795-43FD-8226-BDFFD4FD4BEA}.Debug|x64.Build.0 = Debug|x64
+		{74B24F28-7795-43FD-8226-BDFFD4FD4BEA}.Debug|x86.ActiveCfg = Debug|Win32
+		{74B24F28-7795-43FD-8226-BDFFD4FD4BEA}.Debug|x86.Build.0 = Debug|Win32
+		{74B24F28-7795-43FD-8226-BDFFD4FD4BEA}.Release|x64.ActiveCfg = Release|x64
+		{74B24F28-7795-43FD-8226-BDFFD4FD4BEA}.Release|x64.Build.0 = Release|x64
+		{74B24F28-7795-43FD-8226-BDFFD4FD4BEA}.Release|x86.ActiveCfg = Release|Win32
+		{74B24F28-7795-43FD-8226-BDFFD4FD4BEA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
