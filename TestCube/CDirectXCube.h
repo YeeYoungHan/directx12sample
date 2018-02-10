@@ -44,7 +44,7 @@ protected:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_clsCbvHeap;
 	Microsoft::WRL::ComPtr<ID3D12Resource> m_pclsObjectCB;
 
-	float m_fTheta = 1.5f * DirectX::XM_PI;
+	float m_fTheta = 2.25f * DirectX::XM_PI;
 	float m_fPhi = DirectX::XM_PIDIV4;
 	float m_fRadius = 3.0f;
 
