@@ -203,6 +203,8 @@ bool CDirectXCubeIndex::Update()
 	float z = m_fRadius * sinf( m_fPhi ) * sinf( m_fTheta );
 	float y = m_fRadius * cosf( m_fPhi );
 
+	TRACE( "Phi(%.4f) Theta(%.4f)\n", m_fPhi, m_fTheta );
+
 	// 카메라 위치
 	DirectX::XMVECTOR pos = DirectX::XMVectorSet( x, y, z, 1.0f );
 
