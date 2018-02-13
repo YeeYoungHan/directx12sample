@@ -14,18 +14,18 @@ CDirectXCylinder::~CDirectXCylinder()
 // 큐브를 그리기 위한 준비 과정
 bool CDirectXCylinder::CreateChild()
 {
-	m_iVertexCount = m_iVertexColCount * m_iVertexRowCount;
-	m_iIndexCount = 6 * m_iVertexColCount * ( m_iVertexRowCount - 1 );
+	m_iVertexCount = m_iVertexColCount * m_iVertexRowCount + 2;
+	m_iIndexCount = 6 * m_iVertexColCount * ( m_iVertexRowCount - 1 ) + m_iVertexColCount * 3 * 2;
 
 	CHECK_FAILED( m_pclsDevice->CreateCommittedResource( &CD3DX12_HEAP_PROPERTIES( D3D12_HEAP_TYPE_UPLOAD ), D3D12_HEAP_FLAG_NONE, &CD3DX12_RESOURCE_DESC::Buffer( m_iVertexCount * sizeof( Vertex ) ),
 		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS( &m_pclsVertexBuf ) ) );
 	CHECK_FAILED( m_pclsDevice->CreateCommittedResource( &CD3DX12_HEAP_PROPERTIES( D3D12_HEAP_TYPE_UPLOAD ), D3D12_HEAP_FLAG_NONE, &CD3DX12_RESOURCE_DESC::Buffer( m_iIndexCount * sizeof( uint16_t ) ),
 		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS( &m_pclsIndexBuf ) ) );
 
+	// 정점을 저장한다.
 	Vertex * pVertex;
 	CD3DX12_RANGE clsRange( 0, 0 );
 
-	// 페이지 270 ~ 271
 	CHECK_FAILED( m_pclsVertexBuf->Map( 0, &clsRange, reinterpret_cast<void**>(&pVertex) ) );
 	for( int r = 0; r < m_iVertexRowCount; ++r )
 	{
@@ -43,22 +43,49 @@ bool CDirectXCylinder::CreateChild()
 			++pVertex;
 		}
 	}
+
+	// 상판 중심
+	pVertex->Pos.x = 0;
+	pVertex->Pos.y = m_iVertexRowCount / 2 * m_fVertexRowHeight;
+	pVertex->Pos.z = 0;
+
+	pVertex->Color.w = 1.0;
+	pVertex->Color.x = 1.0;
+	pVertex->Color.y = 0;
+	pVertex->Color.z = 0;
+
+	++pVertex;
+
+	// 하판 중심
+	pVertex->Pos.x = 0;
+	pVertex->Pos.y = m_iVertexRowCount / 2 * m_fVertexRowHeight * (-1);
+	pVertex->Pos.z = 0;
+
+	pVertex->Color.w = 1.0;
+	pVertex->Color.x = 1.0;
+	pVertex->Color.y = 0;
+	pVertex->Color.z = 0;
+
 	m_pclsVertexBuf->Unmap( 0, nullptr );
 
+	// 정점 인덱스를 저장한다.
 	uint16_t * pIndex;
 
 	CHECK_FAILED( m_pclsIndexBuf->Map( 0, &clsRange, reinterpret_cast<void**>(&pIndex) ) );
+	// 테두리
 	for( int r = 0; r < ( m_iVertexRowCount - 1); ++r )
 	{
 		for( int c = 0; c < m_iVertexColCount; ++c )
 		{
+			bool bEnd = false;
+
+			if( (c + 1) == m_iVertexColCount ) bEnd = true;
+
+			// 첫번째 삼각형
 			*pIndex = r * m_iVertexColCount + c;
 			++pIndex;
 
-			*pIndex = ( r + 1 ) * m_iVertexColCount + c;
-			++pIndex;
-
-			if( (c + 1) == m_iVertexColCount )
+			if( bEnd )
 			{
 				*pIndex = r * m_iVertexColCount;
 			}
@@ -68,7 +95,21 @@ bool CDirectXCylinder::CreateChild()
 			}
 			++pIndex;
 
-			if( (c + 1) == m_iVertexColCount )
+			*pIndex = (r + 1) * m_iVertexColCount + c;
+			++pIndex;
+
+			// 두번째 삼각형
+			if( bEnd )
+			{
+				*pIndex = r * m_iVertexColCount;
+			}
+			else
+			{
+				*pIndex = r * m_iVertexColCount + c + 1;
+			}
+			++pIndex;
+
+			if( bEnd )
 			{
 				*pIndex = (r + 1) * m_iVertexColCount;
 			}
@@ -78,19 +119,52 @@ bool CDirectXCylinder::CreateChild()
 			}
 			++pIndex;
 
-			if( (c + 1) == m_iVertexColCount )
-			{
-				*pIndex = r * m_iVertexColCount;
-			}
-			else
-			{
-				*pIndex = r * m_iVertexColCount + c + 1;
-			}
-			++pIndex;
-
-			*pIndex = ( r + 1 ) * m_iVertexColCount + c;
+			*pIndex = (r + 1) * m_iVertexColCount + c;
 			++pIndex;
 		}
+	}
+
+	// 상판
+	uint16_t sIndex = m_iVertexRowCount * m_iVertexColCount;
+	uint16_t sLastRowIndex = (m_iVertexRowCount - 1 ) * m_iVertexColCount;
+
+	for( int c = 0; c < m_iVertexColCount; ++c )
+	{
+		*pIndex = c;
+		++pIndex;
+
+		*pIndex = sIndex;
+		++pIndex;
+
+		if( (c + 1) == m_iVertexColCount )
+		{
+			*pIndex = 0;
+		}
+		else
+		{
+			*pIndex = c + 1;
+		}
+		++pIndex;
+	}
+
+	// 하판
+	for( int c = 0; c < m_iVertexColCount; ++c )
+	{
+		*pIndex = sIndex + 1;
+		++pIndex;
+
+		*pIndex = c + sLastRowIndex;
+		++pIndex;
+
+		if( (c + 1) == m_iVertexColCount )
+		{
+			*pIndex = sLastRowIndex;
+		}
+		else
+		{
+			*pIndex = c + sLastRowIndex + 1;
+		}
+		++pIndex;
 	}
 	m_pclsIndexBuf->Unmap( 0, nullptr );
 
@@ -114,6 +188,7 @@ bool CDirectXCylinder::CreateChild()
 	psoDesc.VS = CD3DX12_SHADER_BYTECODE( pclsVertexShader.Get() );
 	psoDesc.PS = CD3DX12_SHADER_BYTECODE( pclsPixelShader.Get() );
 	psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC( D3D12_DEFAULT );
+	//psoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
 	psoDesc.BlendState = CD3DX12_BLEND_DESC( D3D12_DEFAULT );
 	psoDesc.DepthStencilState.DepthEnable = FALSE;
 	psoDesc.DepthStencilState.StencilEnable = FALSE;
