@@ -78,3 +78,4 @@ protected:
 		return false;          \
 	}                        \
 }
+

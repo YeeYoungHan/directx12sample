@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CDirectXCubeIndex.h"
-
+#include "trace.h"
 
 CDirectXCubeIndex::CDirectXCubeIndex() : m_bMouseDown(false)
 {

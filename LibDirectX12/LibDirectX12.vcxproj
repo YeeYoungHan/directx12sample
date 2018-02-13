@@ -117,9 +117,11 @@
   <ItemGroup>
     <ClInclude Include="CDirectX12.h" />
     <ClInclude Include="d3dx12.h" />
+    <ClInclude Include="trace.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CDirectX12.cpp" />
+    <ClCompile Include="trace.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

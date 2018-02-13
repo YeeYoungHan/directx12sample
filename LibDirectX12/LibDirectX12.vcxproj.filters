@@ -10,12 +10,18 @@
     <ClCompile Include="CDirectX12.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="trace.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CDirectX12.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="d3dx12.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="trace.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
