@@ -22,11 +22,14 @@ bool CDirectXCylinder::CreateChild()
 	CHECK_FAILED( m_pclsDevice->CreateCommittedResource( &CD3DX12_HEAP_PROPERTIES( D3D12_HEAP_TYPE_UPLOAD ), D3D12_HEAP_FLAG_NONE, &CD3DX12_RESOURCE_DESC::Buffer( m_iIndexCount * sizeof( uint16_t ) ),
 		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS( &m_pclsIndexBuf ) ) );
 
+	// ===========================================================
 	// 정점을 저장한다.
 	Vertex * pVertex;
 	CD3DX12_RANGE clsRange( 0, 0 );
 
 	CHECK_FAILED( m_pclsVertexBuf->Map( 0, &clsRange, reinterpret_cast<void**>(&pVertex) ) );
+
+	// 테두리 정점들
 	for( int r = 0; r < m_iVertexRowCount; ++r )
 	{
 		for( int c = 0; c < m_iVertexColCount; ++c )
@@ -68,11 +71,13 @@ bool CDirectXCylinder::CreateChild()
 
 	m_pclsVertexBuf->Unmap( 0, nullptr );
 
+	// ===========================================================
 	// 정점 인덱스를 저장한다.
 	uint16_t * pIndex;
 
 	CHECK_FAILED( m_pclsIndexBuf->Map( 0, &clsRange, reinterpret_cast<void**>(&pIndex) ) );
-	// 테두리
+
+	// 테두리 정점 인덱스
 	for( int r = 0; r < ( m_iVertexRowCount - 1); ++r )
 	{
 		for( int c = 0; c < m_iVertexColCount; ++c )
@@ -124,7 +129,7 @@ bool CDirectXCylinder::CreateChild()
 		}
 	}
 
-	// 상판
+	// 상판 인덱스
 	uint16_t sIndex = m_iVertexRowCount * m_iVertexColCount;
 	uint16_t sLastRowIndex = (m_iVertexRowCount - 1 ) * m_iVertexColCount;
 
@@ -147,7 +152,7 @@ bool CDirectXCylinder::CreateChild()
 		++pIndex;
 	}
 
-	// 하판
+	// 하판 인덱스
 	for( int c = 0; c < m_iVertexColCount; ++c )
 	{
 		*pIndex = sIndex + 1;
