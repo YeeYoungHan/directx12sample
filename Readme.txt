@@ -18,6 +18,15 @@ DirectX 12 샘플 소스 코드 개발
 * TestTriangle
   - DirectX 12 로 삼각형 그리기 예제
 
+* TestCube
+  - 정점만으로 큐브 그리기 예제
+
+* TestCubeIndex
+  - 정점 인덱스로 큐브 그리기 예제
+
+* TestCylinder
+  - 다각형 기둥 그리기 예제
+
 3. 참고
 
 본 프로젝트의 소스 코드 주석에 페이지로 기술된 항목은 "DirectX 12 를 이용한 3D 게임 프로그래밍 입문" 도서의 페이지를 의미한다.
