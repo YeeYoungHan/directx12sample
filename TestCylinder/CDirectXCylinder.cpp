@@ -34,9 +34,9 @@ bool CDirectXCylinder::CreateChild()
 	{
 		for( int c = 0; c < m_iVertexColCount; ++c )
 		{
-			pVertex->Pos.x = sinf( DirectX::XM_2PI * c / m_iVertexColCount ) * m_fVertexRadius;
+			pVertex->Pos.x = cosf( DirectX::XM_2PI * c / m_iVertexColCount ) * m_fVertexRadius;
 			pVertex->Pos.y = (m_iVertexRowCount / 2 - r) * m_fVertexRowHeight;
-			pVertex->Pos.z = cosf( DirectX::XM_2PI * c / m_iVertexColCount ) * m_fVertexRadius * (-1);
+			pVertex->Pos.z = sinf( DirectX::XM_2PI * c / m_iVertexColCount ) * m_fVertexRadius;
 
 			pVertex->Color.w = 1.0;
 			pVertex->Color.x = pVertex->Pos.x / m_fVertexRadius;
@@ -103,17 +103,8 @@ bool CDirectXCylinder::CreateChild()
 			*pIndex = (r + 1) * m_iVertexColCount + c;
 			++pIndex;
 
-			// 두번째 삼각형
-			if( bEnd )
-			{
-				*pIndex = r * m_iVertexColCount;
-			}
-			else
-			{
-				*pIndex = r * m_iVertexColCount + c + 1;
-			}
-			++pIndex;
 
+			// 두번째 삼각형
 			if( bEnd )
 			{
 				*pIndex = (r + 1) * m_iVertexColCount;
@@ -125,6 +116,16 @@ bool CDirectXCylinder::CreateChild()
 			++pIndex;
 
 			*pIndex = (r + 1) * m_iVertexColCount + c;
+			++pIndex;
+
+			if( bEnd )
+			{
+				*pIndex = r * m_iVertexColCount;
+			}
+			else
+			{
+				*pIndex = r * m_iVertexColCount + c + 1;
+			}
 			++pIndex;
 		}
 	}
