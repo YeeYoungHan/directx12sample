@@ -167,7 +167,6 @@ bool CDirectXCube::DrawChild()
 	m_pclsCmdList->IASetVertexBuffers( 0, 1, &clsBufView );
 
 	// 정점을 그린다. - 페이지 251 ~ 252
-	// D3D12 ERROR: ID3D12CommandList::DrawInstanced: Root Parameter Index [0] is not set. On a Resource Binding Tier 2 hardware, all descriptor tables of type CBV and UAV declared in the currently set Root Signature (0x000002D6601C3340:'Unnamed ID3D12RootSignature Object') must be populated, even if the shaders do not need the descriptor. [ EXECUTION ERROR #991: COMMAND_LIST_DESCRIPTOR_TABLE_NOT_SET]
 	m_pclsCmdList->DrawInstanced( m_iVertexCount, 1, 0, 0 );
 
 	return true;
